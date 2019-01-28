@@ -2,7 +2,6 @@ image: doridian/node-builder:latest
 
 stages:
   - install
-  - lint
   - test
 
 cache:
