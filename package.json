@@ -1,0 +1,50 @@
+{
+  "name": "@concat/license-decoder",
+  "version": "1.0.0",
+  "description": "Decoder US and Canada license strings.",
+  "main": "dist/licenseDecoder.js",
+  "typings": "dist/licenseDecoder.d.ts",
+  "scripts": {
+    "test": "mocha -R dot --exit -r ts-node/register/transpile-only \"src/**/*.test.ts\"",
+    "build": "rimraf dist && tsc",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/conventioncat/license-decode.git"
+  },
+  "keywords": [
+    "License",
+    "USA",
+    "Canada"
+  ],
+  "author": "Simon Schick <demwizzy@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://gitlab.com/conventioncat/license-decode/issues"
+  },
+  "homepage": "https://gitlab.com/conventioncat/license-decode#readme",
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 100
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.concat.app"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/faker": "^4.1.5",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "chai": "^4.2.0",
+    "faker": "^4.1.0",
+    "mocha": "^5.2.0",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.2.4"
+  }
+}
