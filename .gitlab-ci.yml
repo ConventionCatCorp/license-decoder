@@ -1,0 +1,32 @@
+image: doridian/node-builder:latest
+
+stages:
+  - install
+  - lint
+  - test
+
+cache:
+  paths:
+    - node_modules/
+  policy: pull
+  key: "$CI_COMMIT_REF_NAME"
+
+install:
+  stage: install
+  script:
+    - npm-cli-login
+    - npm ci
+  variables:
+    NPM_EMAIL: "ci@npm.concat.app"
+    NPM_SCOPE: "@concat"
+    NPM_REGISTRY: "https://npm.concat.app"
+  cache:
+    paths:
+    - node_modules/
+    policy: pull-push
+    key: "$CI_COMMIT_REF_NAME"
+
+test:
+  stage: test
+  script:
+    - npm test
