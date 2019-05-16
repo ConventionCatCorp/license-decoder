@@ -93,6 +93,8 @@ export interface LicenseData {
   unmatchedCodes: string[];
 }
 
+export type IncompleteLicenseData = Partial<LicenseData>;
+
 function dateTransform(
   raw: string,
   normalisation: DateNormalisation,
@@ -375,28 +377,38 @@ export interface DecodeOptions {
    * and unknown code is encountered.
    */
   strict?: boolean;
-  delimiter?: string | RegExp;
+}
+
+interface StrictDecodeOptions extends DecodeOptions {
+  strict: true;
 }
 
 /**
  * Parses a license data string, version agnostic for simplicity.
  */
+export function decodeLicense(str: string, options?: DecodeOptions): IncompleteLicenseData;
+export function decodeLicense(str: string, options: StrictDecodeOptions): LicenseData;
 export function decodeLicense(
   str: string,
   {
     strict,
-    delimiter = /[\n\r]+/,
     dateNormalisation = DateNormalisation.Country,
   }: DecodeOptions = {},
 ): Partial<LicenseData> {
-  if (strict) {
-    if (!str.startsWith('@\n\nANSI')) {
-      throw new LicenseDecodeError('Bad encoding');
+  let parsedVersion = Number.NaN;
+  let delimiter: string | RegExp = /[\n\r]+/;
+  if (str.startsWith('@ANSI;')) {
+    delimiter = ';';
+  } else {
+    if (strict) {
+      if (!str.startsWith('@\n\nANSI')) {
+        throw new LicenseDecodeError('Bad encoding');
+      }
     }
+    const [, version] = str.match(/^@\n\nANSI \d{6}(\d{2})/) || <string[]>[];
+    parsedVersion = parseInt(version, 10);
+    str = str.replace(/^@\n\nANSI .*DL/, '');
   }
-  const [, version] = str.match(/^@\n\nANSI \d{6}(\d{2})/) || <string[]>[];
-  const parsedVersion = parseInt(version, 10);
-  str = str.replace(/^@\n\nANSI .*DL/, '');
   const groups = str.split(delimiter);
   const out: Partial<LicenseData> = {
     unmatchedCodes: <string[]>[],
@@ -429,5 +441,5 @@ export function decodeLicense(
       }
     }
   }
-  return <LicenseData>out;
+  return out;
 }

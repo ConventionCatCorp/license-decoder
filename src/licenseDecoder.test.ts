@@ -167,7 +167,6 @@ describe('licenseDecoder', () => {
         )};DCS${lastName};DAC${firstName}`,
         {
           dateNormalisation: DateNormalisation.None,
-          delimiter: ';',
         },
       ),
     ).to.deep.equal({
@@ -304,13 +303,23 @@ describe('licenseDecoder', () => {
     }
   });
 
-  it('throws error in strict mode if license does not start correctly', () => {
-    expect(() => decodeLicense('@ANSI;DBA99990101', { strict: true })).to.throw(/Bad encoding/);
-  });
-
   it('throws error in strict mode if license is missing required fields', () => {
     expect(() =>
       decodeLicense('@\n\nANSI 123123030002DL001231231ZW1231231231DLDCSTEST', { strict: true }),
     ).to.throw(MissingAttributeError);
   });
+
+  it('handles corrupted short short codes', () => {
+    const corrupted = [
+      '@ANSI;DBA20210206;DBB19910206;DCSESPINOZAOLMEDO;DA',
+      '@ANSI;DBA20210206;DBB19910206;DCSESPINOZAOLMEDO;D',
+      '@ANSI;DBA20520429;DBB19870429;DCSURBINA',
+      '@ANSI;DBA20520429;DBB19870429;DCSURBIN',
+      '@ANSI;DBA20230118;DBB19990118;DCS',
+      '@ANSI;DBA20230118;DBB19990118;DC',
+    ];
+    for(const c of corrupted) {
+      decodeLicense(c);
+    }
+  })
 });
