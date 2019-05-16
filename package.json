@@ -1,6 +1,6 @@
 {
   "name": "@concat/license-decoder",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Decoder US and Canada license strings.",
   "main": "dist/licenseDecoder.js",
   "typings": "dist/licenseDecoder.d.ts",
