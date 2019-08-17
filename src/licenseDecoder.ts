@@ -425,9 +425,10 @@ export function decodeLicense(
     for (const [fieldName, { codes, transform }] of Object.entries(mapping)) {
       if (codes.includes(code)) {
         matched = true;
-        out[<keyof LicenseData>fieldName] = transform
+        // TODO: For some these types are no longer compatible, even with a cast?!
+        out[<keyof LicenseData>fieldName] = <any>(transform
           ? transform(value, dateNormalisation, country)
-          : value;
+          : value);
       }
     }
     if (strict && !matched) {

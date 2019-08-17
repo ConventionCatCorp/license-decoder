@@ -57,7 +57,7 @@ describe('licenseDecoder', () => {
   it('parses full licenses', function() {
     this.timeout(10000);
     this.slow(50000);
-    for(let i = 0;i < 10000;++i) {
+    for (let i = 0; i < 10000; ++i) {
       const firstName = name.firstName().toLocaleUpperCase();
       const lastName = name.lastName().toLocaleUpperCase();
       const dateOfBirth = roundDate(date.past());
@@ -318,8 +318,8 @@ describe('licenseDecoder', () => {
       '@ANSI;DBA20230118;DBB19990118;DCS',
       '@ANSI;DBA20230118;DBB19990118;DC',
     ];
-    for(const c of corrupted) {
+    for (const c of corrupted) {
       decodeLicense(c);
     }
-  })
+  });
 });
