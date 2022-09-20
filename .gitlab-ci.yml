@@ -18,7 +18,7 @@ install:
   variables:
     NPM_EMAIL: "ci@npm.concat.app"
     NPM_SCOPE: "@concat"
-    NPM_REGISTRY: "https://npm.concat.app"
+    NPM_REGISTRY: "https://npm.pkg.github.com"
   cache:
     paths:
     - node_modules/
